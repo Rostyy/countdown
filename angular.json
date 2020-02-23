@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1, 
+  "version": 1,
   "newProjectRoot": "projects",
   "projects": {
     "countdown": {
@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "countdown"
+    }
+  },
+  "defaultProject": "countdown",
+  "cli": {
+    "analytics": "b1fcb93e-6b35-4550-8322-3f01a373e019"
+  }
 }
