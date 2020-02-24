@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { ShareDataService } from '../services/share-data.service';
 import { Subscription } from 'rxjs';
 
@@ -7,7 +7,9 @@ import { Subscription } from 'rxjs';
   templateUrl: './countdown.component.html',
   styleUrls: ['./countdown.component.scss']
 })
-export class CountdownComponent implements OnInit, OnDestroy {
+export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
+
+  @Input() buttonName: any;
 
   constructor(private shareDataService: ShareDataService) {
     this.shareDataService = shareDataService;
@@ -22,25 +24,47 @@ export class CountdownComponent implements OnInit, OnDestroy {
   notification: string = '';
   intervalRef: any
 
+  ngOnChanges(): void {
+    this.controlClick();
+  }
+
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
         this.halfTimeSec = minutesDuration*60/2;
         this.notification = '';
+        this.timerClass = '';
         clearInterval(this.intervalRef);
         this.activateTimer(minutesDuration);
       })
   }
 
-  ngOnDestroy(): void{
+  ngOnDestroy(): void {
     this.changeMinutesSubscription.unsubscribe();
   }
 
-  displayNumbers(value: number) {
+  controlClick(): void {
+    switch(this.buttonName) {
+      case 'pause':
+        console.log('pause case')
+        break;
+      case '1x':
+        console.log('1x case')
+        break;
+      case '1.5x':
+        console.log('1.5x case')
+        break;
+      case '2x':
+        console.log('2x case')
+        break;
+    }
+  }
+
+  displayNumbers(value: number): number|string {
     return value < 10 ? `0${value}` : value;
   }
 
-  intervalFn() {
+  intervalFn(): void {
     if (this.seconds === 0) {
       this.seconds = 59;
       this.minutes--;
@@ -52,7 +76,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
     this.showTimerIsOver();
   }
 
-  applyTimerStyles() {
+  applyTimerStyles(): void {
     if (this.seconds <= 10) {
       this.timerClass = 'blink';
       return;
@@ -62,7 +86,7 @@ export class CountdownComponent implements OnInit, OnDestroy {
     }
   }
 
-  showHalfTimeNotification() {
+  showHalfTimeNotification(): void {
     const currentSec = this.minutes*60 + this.seconds;
     if (currentSec <= this.halfTimeSec) {
       this.notification = 'More than halfway there!';

@@ -5,12 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { CountdownComponent } from './countdown/countdown.component';
+import { ControlsComponent } from './controls/controls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TimeInputComponent,
-    CountdownComponent
+    CountdownComponent,
+    ControlsComponent
   ],
   imports: [
     BrowserModule,
