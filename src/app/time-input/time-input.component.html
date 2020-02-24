@@ -1,0 +1,5 @@
+<form [formGroup]="timeForm" (ngSubmit)="onSubmit()">
+    <span>Countdown: </span>
+    <input type="number" min=0 placeholder="(Min)" formControlName="minutes">
+    <button type="submit" [disabled]="!timeForm.valid">Start</button>
+</form>
