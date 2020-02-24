@@ -1,8 +1,23 @@
 .notification {
-    color: red;
+    color: green;
 }
 
 .countdown-timer {
     color: black;
     font-size: 30px;
+
+    &.red {
+        color: red;
+    }
+
+    &.blink {
+        color: red;
+        animation: blink-animation 1s steps(5, start) infinite;
+    }
+}
+
+@keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
 }

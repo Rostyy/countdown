@@ -14,7 +14,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
   
   changeMinutesSubscription: Subscription;
-  duration: number;
+  halfTimeSec: number;
+  timerClass: string = ''
   minutes: number;
   seconds: number;
 
@@ -24,8 +25,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
-        this.duration = minutesDuration;
-        this.notification = ''
+        this.halfTimeSec = minutesDuration*60/2;
+        this.notification = '';
         clearInterval(this.intervalRef);
         this.activateTimer(minutesDuration);
       })
@@ -46,30 +47,41 @@ export class CountdownComponent implements OnInit, OnDestroy {
     } else {
       this.seconds--;
     }
-
+    this.applyTimerStyles();
     this.showHalfTimeNotification();
+    this.showTimerIsOver();
+  }
 
-    if (this.seconds === 0 && this.minutes === 0 ) {
-      this.notification = 'Time is over';
-      clearInterval(this.intervalRef);
+  applyTimerStyles() {
+    if (this.seconds <= 10) {
+      this.timerClass = 'blink';
       return;
+    }
+    if (this.seconds <= 20) {
+      this.timerClass = 'red';
     }
   }
 
-  // showHalfTimeNotification() {
-  //   const halfTime = this.duration/2
-  //   console.log('halfTime', halfTime);
-    
-  // }
+  showHalfTimeNotification() {
+    const currentSec = this.minutes*60 + this.seconds;
+    if (currentSec <= this.halfTimeSec) {
+      this.notification = 'More than halfway there!';
+    }
+  }
 
-  activateTimer(duration: number) {
-    this.minutes = duration;
-    this.seconds = 0;
+  showTimerIsOver(): boolean {
     if (this.seconds === 0 && this.minutes === 0 ) {
       this.notification = 'Time is over';
+      this.timerClass = '';
       clearInterval(this.intervalRef);
-      return;
+      return true;
     }
+  }
+
+  activateTimer(duration: number): void {
+    this.minutes = duration;
+    this.seconds = 0;
+    if (this.showTimerIsOver()) return;
     this.intervalRef = setInterval(this.intervalFn.bind(this), 1000);
   }
 
