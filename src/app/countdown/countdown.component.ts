@@ -17,9 +17,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   
   changeMinutesSubscription: Subscription;
   halfTimeSec: number;
-  timerClass: string = ''
-  minutes: number;
-  seconds: number;
+  timerClass: string = '';
+  initDuration: {minutes: number, seconds: number} = {minutes: 0, seconds: 0};
 
   notification: string = '';
   intervalRef: any;
@@ -53,12 +52,13 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
         this.continue();
         break;
       case '1x':
+        this.applyCoefficient();
         break;
       case '1.5x':
-        console.log('1.5x case')
+        this.applyCoefficient(1.5);
         break;
       case '2x':
-        console.log('2x case')
+        this.applyCoefficient(2);
         break;
     }
   }
@@ -68,8 +68,13 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   pause() {
-    this.paused = {minutes: this.minutes, seconds: this.seconds};
+    this.paused = Object.assign({}, this.initDuration);
     clearInterval(this.intervalRef);
+  }
+
+  applyCoefficient(coefficient: number = 1) {
+    const {minutes, seconds} = this.initDuration;
+    this.activateTimer(minutes, seconds, coefficient);
   }
 
   continue() {
@@ -78,11 +83,11 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   intervalFn(): void {
-    if (this.seconds === 0) {
-      this.seconds = 59;
-      this.minutes--;
+    if (this.initDuration.seconds === 0) {
+      this.initDuration.seconds = 59;
+      this.initDuration.minutes--;
     } else {
-      this.seconds--;
+      this.initDuration.seconds--;
     }
     this.applyTimerStyles();
     this.showHalfTimeNotification();
@@ -90,24 +95,26 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   applyTimerStyles(): void {
-    if (this.seconds <= 10) {
+    const {seconds} = this.initDuration;
+    if (seconds <= 10) {
       this.timerClass = 'blink';
       return;
     }
-    if (this.seconds <= 20) {
+    if (seconds <= 20) {
       this.timerClass = 'red';
     }
   }
 
   showHalfTimeNotification(): void {
-    const currentSec = this.minutes*60 + this.seconds;
+    const currentSec = this.initDuration.minutes*60 + this.initDuration.seconds;
     if (currentSec <= this.halfTimeSec) {
       this.notification = 'More than halfway there!';
     }
   }
 
   showTimerIsOver(): boolean {
-    if (!this.seconds && !this.minutes) {
+    let {minutes, seconds} = this.initDuration;
+    if (!seconds && !minutes) {
       this.notification = 'Time is over';
       this.timerClass = '';
       clearInterval(this.intervalRef);
@@ -115,10 +122,11 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  activateTimer(minDuration: number, seconds: number, frequency = 1000): void {
+  activateTimer(minDuration: number, seconds: number, coefficient = 1): void {
     if (this.intervalRef) clearInterval(this.intervalRef);
-    this.minutes = minDuration;
-    this.seconds = seconds;
+    const frequency = 1000 / coefficient;
+    this.initDuration.minutes = minDuration;
+    this.initDuration.seconds = seconds;
     if (this.showTimerIsOver()) return;
     this.intervalRef = setInterval(this.intervalFn.bind(this), frequency);
   }
