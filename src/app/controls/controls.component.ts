@@ -19,11 +19,10 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    CONSTANT
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(() => {
         this.isPause = true;
-        this.buttonName = '';
+        this.buttonName = this.BUTTON.X1;
       })
   }
 
@@ -33,9 +32,11 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   buttonClick(buttonName: string): void {
     this.buttonName = buttonName;
-    if (buttonName === this.BUTTON.PAUSE || buttonName === this.BUTTON.CONTINUE) {
-      this.isPause = !this.isPause;
-    }
+    this.isPause = (buttonName === this.BUTTON.PAUSE) || (buttonName === this.BUTTON.CONTINUE) ? !this.isPause : true;
+  }
+
+  isDisabled(name: string): boolean {
+    return this.buttonName === name;
   }
 
 }

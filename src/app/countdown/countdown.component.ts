@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
-  @Input() buttonName: any;
+  @Input() buttonName: string;
 
   constructor(private shareDataService: ShareDataService) {
     this.shareDataService = shareDataService;
@@ -33,17 +33,21 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
-      .subscribe(minutesDuration => {
-        this.halfTimeSec = minutesDuration*60/2;
-        this.notification = {message: '', class: ''};;
-        this.timerClass = '';
-        this.coefficient = 1;
+      .subscribe((minutesDuration: number) => {
+        this.initStartClick(minutesDuration)
         this.activateTimer(minutesDuration, 0);
       })
   }
 
   ngOnDestroy(): void {
     this.changeMinutesSubscription.unsubscribe();
+  }
+
+  initStartClick(minutesDuration: number): void {
+    this.halfTimeSec = minutesDuration*60/2;
+    this.notification = {message: '', class: ''};;
+    this.timerClass = '';
+    this.coefficient = 1;
   }
 
   controlClick(): void {
