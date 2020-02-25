@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { TimeInputComponent } from './time-input/time-input.component';
 import { CountdownComponent } from './countdown/countdown.component';
 import { ControlsComponent } from './controls/controls.component';
+import { DisplayNumberPipe } from './pipes/display-number.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     TimeInputComponent,
     CountdownComponent,
-    ControlsComponent
+    ControlsComponent,
+    DisplayNumberPipe
   ],
   imports: [
     BrowserModule,

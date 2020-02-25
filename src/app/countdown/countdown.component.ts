@@ -65,10 +65,6 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  displayNumbers(value: number): number|string {
-    return value < 10 ? `0${value}` : value;
-  }
-
   pause(): void {
     this.paused = Object.assign({}, this.initDuration);
     clearInterval(this.intervalRef);
