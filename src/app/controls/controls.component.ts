@@ -11,9 +11,11 @@ import { CONSTANT } from '../constants/constants';
 export class ControlsComponent implements OnInit, OnDestroy {
 
   changeMinutesSubscription: Subscription;
+  changeCoefficientSubscription: Subscription;
   buttonName = '';
   isPause = true;
   BUTTON = CONSTANT.BUTTON;
+  coefficient: number;
 
   constructor(private shareDataService: ShareDataService) {
   }
@@ -24,10 +26,16 @@ export class ControlsComponent implements OnInit, OnDestroy {
         this.isPause = true;
         this.buttonName = this.BUTTON.X1;
       })
+
+    this.changeCoefficientSubscription = this.shareDataService.changeCoefficient$
+    .subscribe(coefficient => {
+      this.coefficient = coefficient;
+    })
   }
 
   ngOnDestroy(): void {
     this.changeMinutesSubscription.unsubscribe();
+    this.changeCoefficientSubscription.unsubscribe();
   }
 
   buttonClick(buttonName: string): void {
@@ -36,7 +44,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   isDisabled(name: string): boolean {
-    return this.buttonName === name;
+    return name === `${this.coefficient}x`;
   }
 
 }

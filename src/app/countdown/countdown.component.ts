@@ -21,7 +21,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   halfTimeSec: number;
   timerClass: string = '';
   initDuration: Timer = {minutes: 0, seconds: 0};
-  coefficient: number;
+  // coefficient: number;
 
   notification: {message: string, class: string} = {message: '', class: ''};
   intervalRef: any;
@@ -47,7 +47,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.halfTimeSec = minutesDuration*60/2;
     this.notification = {message: '', class: ''};;
     this.timerClass = '';
-    this.coefficient = 1;
+    // this.coefficient = 1;
   }
 
   controlClick(): void {
@@ -80,7 +80,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   applyCoefficient(coefficient: number = 1) {
-    this.coefficient = coefficient;
+    // this.coefficient = coefficient;
+    this.shareDataService.changeCoefficient(coefficient);
     const {minutes, seconds} = this.initDuration;
     this.activateTimer(minutes, seconds);
   }
@@ -132,7 +133,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
   activateTimer(minDuration: number, seconds: number): void {
     if (this.intervalRef) clearInterval(this.intervalRef);
-    const frequency = 1000 / this.coefficient;
+    const coefficient = this.shareDataService.changeCoefficientSubject.getValue();
+    const frequency = 1000 / coefficient;
     this.initDuration.minutes = minDuration;
     this.initDuration.seconds = seconds;
     if (this.showTimerIsOver()) return;
