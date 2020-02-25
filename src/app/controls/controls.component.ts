@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ShareDataService } from '../services/share-data.service';
 import { Subscription } from 'rxjs';
+import { CONSTANT } from '../constants/constants';
 
 @Component({
   selector: 'controls',
@@ -12,10 +13,13 @@ export class ControlsComponent implements OnInit, OnDestroy {
   changeMinutesSubscription: Subscription;
   buttonName = '';
   isPause = true;
+  BUTTON = CONSTANT.BUTTON;
 
-  constructor(private shareDataService: ShareDataService) { }
+  constructor(private shareDataService: ShareDataService) {
+  }
 
   ngOnInit(): void {
+    CONSTANT
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
         this.isPause = true;
@@ -28,7 +32,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   buttonClick(buttonName: string): void {
     this.buttonName = buttonName;
-    if (buttonName === 'pause' || buttonName === 'continue') {
+    if (buttonName === this.BUTTON.PAUSE || buttonName === this.BUTTON.CONTINUE) {
       this.isPause = !this.isPause;
     }
   }

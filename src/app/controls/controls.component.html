@@ -1,8 +1,8 @@
 <div>
-    <countdown [buttonName]="buttonName"></countdown> <button (click)="buttonClick(isPause ? 'pause' : 'continue')">{{isPause ? 'pause' : 'continue'}}</button>
+    <countdown [buttonName]="buttonName"></countdown> <button (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)">{{isPause ? BUTTON.PAUSE : BUTTON.CONTINUE}}</button>
 </div>
 <div>
-    <button (click)="buttonClick('1x')">1x</button>
-    <button (click)="buttonClick('1.5x')">1.5x</button>
-    <button (click)="buttonClick('2x')">2x</button>
+    <button (click)="buttonClick(BUTTON.X1)">1x</button>
+    <button (click)="buttonClick(BUTTON.X1_5)">1.5x</button>
+    <button (click)="buttonClick(BUTTON.X2)">2x</button>
 </div>

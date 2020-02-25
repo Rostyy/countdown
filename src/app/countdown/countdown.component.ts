@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { ShareDataService } from '../services/share-data.service';
-import { Subscription } from 'rxjs';
 import { Timer } from 'src/models/timer.model';
+import { CONSTANT } from '../constants/constants';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'countdown',
@@ -32,7 +33,6 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
-        console.log("minutesDuration", minutesDuration);
         this.halfTimeSec = minutesDuration*60/2;
         this.notification = '';
         this.timerClass = '';
@@ -46,19 +46,19 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
   controlClick(): void {
     switch(this.buttonName) {
-      case 'pause':
+      case CONSTANT.BUTTON.PAUSE:
         this.pause();
         break;
-      case 'continue':
+      case CONSTANT.BUTTON.CONTINUE:
         this.continue();
         break;
-      case '1x':
+      case CONSTANT.BUTTON.X1:
         this.applyCoefficient();
         break;
-      case '1.5x':
+      case CONSTANT.BUTTON.X1_5:
         this.applyCoefficient(1.5);
         break;
-      case '2x':
+      case CONSTANT.BUTTON.X2:
         this.applyCoefficient(2);
         break;
     }
