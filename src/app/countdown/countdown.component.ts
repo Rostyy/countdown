@@ -22,7 +22,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   seconds: number;
 
   notification: string = '';
-  intervalRef: any
+  intervalRef: any;
+  paused: {minutes: number, seconds: number} = {minutes: null, seconds: null};
 
   ngOnChanges(): void {
     this.controlClick();
@@ -31,11 +32,11 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
+        console.log("minutesDuration", minutesDuration);
         this.halfTimeSec = minutesDuration*60/2;
         this.notification = '';
         this.timerClass = '';
-        clearInterval(this.intervalRef);
-        this.activateTimer(minutesDuration);
+        this.activateTimer(minutesDuration, 0);
       })
   }
 
@@ -46,14 +47,12 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   controlClick(): void {
     switch(this.buttonName) {
       case 'pause':
-        console.log('pause case');
         this.pause();
         break;
       case 'continue':
-        console.log('continue case');
+        this.continue();
         break;
       case '1x':
-        // this.activateTimer(minutesDuration);
         break;
       case '1.5x':
         console.log('1.5x case')
@@ -69,11 +68,13 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   pause() {
+    this.paused = {minutes: this.minutes, seconds: this.seconds};
     clearInterval(this.intervalRef);
   }
 
   continue() {
-
+    const {minutes, seconds} = this.paused;
+    this.activateTimer(minutes, seconds);
   }
 
   intervalFn(): void {
@@ -114,9 +115,10 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  activateTimer(duration: number, frequency = 1000): void {
-    this.minutes = duration;
-    this.seconds = 0;
+  activateTimer(minDuration: number, seconds: number, frequency = 1000): void {
+    if (this.intervalRef) clearInterval(this.intervalRef);
+    this.minutes = minDuration;
+    this.seconds = seconds;
     if (this.showTimerIsOver()) return;
     this.intervalRef = setInterval(this.intervalFn.bind(this), frequency);
   }
