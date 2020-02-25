@@ -46,10 +46,14 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   controlClick(): void {
     switch(this.buttonName) {
       case 'pause':
-        console.log('pause case')
+        console.log('pause case');
+        this.pause();
+        break;
+      case 'continue':
+        console.log('continue case');
         break;
       case '1x':
-        console.log('1x case')
+        // this.activateTimer(minutesDuration);
         break;
       case '1.5x':
         console.log('1.5x case')
@@ -62,6 +66,14 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
   displayNumbers(value: number): number|string {
     return value < 10 ? `0${value}` : value;
+  }
+
+  pause() {
+    clearInterval(this.intervalRef);
+  }
+
+  continue() {
+
   }
 
   intervalFn(): void {
@@ -94,7 +106,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   showTimerIsOver(): boolean {
-    if (this.seconds === 0 && this.minutes === 0 ) {
+    if (!this.seconds && !this.minutes) {
       this.notification = 'Time is over';
       this.timerClass = '';
       clearInterval(this.intervalRef);
@@ -102,11 +114,11 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  activateTimer(duration: number): void {
+  activateTimer(duration: number, frequency = 1000): void {
     this.minutes = duration;
     this.seconds = 0;
     if (this.showTimerIsOver()) return;
-    this.intervalRef = setInterval(this.intervalFn.bind(this), 1000);
+    this.intervalRef = setInterval(this.intervalFn.bind(this), frequency);
   }
 
 }

@@ -1,5 +1,5 @@
 <div>
-    <countdown [buttonName]="buttonName"></countdown> <button (click)="buttonClick('pause')">Pause</button>
+    <countdown [buttonName]="buttonName"></countdown> <button (click)="buttonClick(isPause ? 'pause' : 'continue')">{{isPause ? 'pause' : 'continue'}}</button>
 </div>
 <div>
     <button (click)="buttonClick('1x')">1x</button>

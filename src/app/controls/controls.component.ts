@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ControlsComponent implements OnInit {
 
   buttonName = '';
+  isPause = true;
 
   constructor() { }
 
@@ -16,6 +17,9 @@ export class ControlsComponent implements OnInit {
 
   buttonClick(buttonName: string): void {
     this.buttonName = buttonName;
+    if (buttonName === 'pause' || buttonName === 'continue') {
+      this.isPause = !this.isPause;
+    }
   }
 
 }
