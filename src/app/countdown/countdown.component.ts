@@ -36,46 +36,26 @@ export class CountdownComponent implements OnInit, OnDestroy {
     this.changeMinutesSubscription.unsubscribe();
   }
 
-  controlClick(buttonName): void {
-    switch(buttonName) {
-      case CONSTANT.BUTTON.PAUSE:
-        this.pause();
-        break;
-      case CONSTANT.BUTTON.CONTINUE:
-        this.continue();
-        break;
-      case CONSTANT.BUTTON.X1:
-        this.applyCoefficient();
-        break;
-      case CONSTANT.BUTTON.X1_5:
-        this.applyCoefficient(1.5);
-        break;
-      case CONSTANT.BUTTON.X2:
-        this.applyCoefficient(2);
-        break;
-    }
+  pause(): void {
+    this.paused = Object.assign({}, this.initDuration);
+    clearInterval(this.intervalRef);
+  }
+
+  continue(): void {
+    const {minutes, seconds} = this.paused;
+    this.activateTimer(minutes, seconds);
+  }
+
+  applyCoefficient(coefficient: number = 1): void {
+    this.shareDataService.changeCoefficient(coefficient);
+    const {minutes, seconds} = this.initDuration;
+    this.activateTimer(minutes, seconds);
   }
 
   private initStartClick(minutesDuration: number): void {
     this.halfTimeSec = minutesDuration*60/2;
     this.notification = {message: '', messageClass: ''};;
     this.timerClass = '';
-  }
-
-  private pause(): void {
-    this.paused = Object.assign({}, this.initDuration);
-    clearInterval(this.intervalRef);
-  }
-
-  private continue(): void {
-    const {minutes, seconds} = this.paused;
-    this.activateTimer(minutes, seconds);
-  }
-
-  private applyCoefficient(coefficient: number = 1): void {
-    this.shareDataService.changeCoefficient(coefficient);
-    const {minutes, seconds} = this.initDuration;
-    this.activateTimer(minutes, seconds);
   }
 
   private calculate(): void {

@@ -21,7 +21,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   constructor(private shareDataService: ShareDataService) { }
 
-  @ViewChild("countdown") countdownReference: CountdownComponent;
+  @ViewChild('countdown') countdownReference: CountdownComponent;
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
@@ -42,12 +42,32 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   buttonClick(buttonName: string): void {
-    this.countdownReference.controlClick(buttonName);
+    this.controlClick(buttonName);
     this.isPause = (buttonName === this.BUTTON.PAUSE) || (buttonName === this.BUTTON.CONTINUE) ? !this.isPause : true;
   }
 
   isDisabled(name: string): boolean {
     return name === `${this.coefficient}x`;
+  }
+
+  private controlClick(buttonName): void {
+    switch(buttonName) {
+      case CONSTANT.BUTTON.PAUSE:
+        this.countdownReference.pause();
+        break;
+      case CONSTANT.BUTTON.CONTINUE:
+        this.countdownReference.continue();
+        break;
+      case CONSTANT.BUTTON.X1:
+        this.countdownReference.applyCoefficient();
+        break;
+      case CONSTANT.BUTTON.X1_5:
+        this.countdownReference.applyCoefficient(1.5);
+        break;
+      case CONSTANT.BUTTON.X2:
+        this.countdownReference.applyCoefficient(2);
+        break;
+    }
   }
 
 }
