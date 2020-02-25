@@ -27,9 +27,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
       })
 
     this.changeCoefficientSubscription = this.shareDataService.changeCoefficient$
-    .subscribe(coefficient => {
-      this.coefficient = coefficient;
-    })
+      .subscribe(coefficient => {
+        this.coefficient = coefficient;
+      })
   }
 
   ngOnDestroy(): void {

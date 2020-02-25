@@ -34,7 +34,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((minutesDuration: number) => {
         this.initStartClick(minutesDuration)
         this.activateTimer(minutesDuration, 0);
-      })
+      });
   }
 
   ngOnDestroy(): void {
@@ -83,7 +83,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.activateTimer(minutes, seconds);
   }
 
-  private intervalFn(): void {
+  private calculate(): void {
     if (this.initDuration.seconds === 0) {
       this.initDuration.seconds = 59;
       this.initDuration.minutes--;
@@ -136,7 +136,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.initDuration.minutes = minDuration;
     this.initDuration.seconds = seconds;
     if (this.showTimerIsOver()) return;
-    this.intervalRef = <any>setInterval(this.intervalFn.bind(this), frequency);
+    this.intervalRef = <any>setInterval(this.calculate.bind(this), frequency);
   }
 
 }
