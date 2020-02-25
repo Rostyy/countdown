@@ -5,7 +5,7 @@
         </div>
         <input type="number" class="form-control" min=0 placeholder="(Min)" aria-label="(Min)" formControlName="minutes" aria-describedby="button-addon2">
         <div class="input-group-append">
-          <button type="submit" class="btn btn-outline-secondary" id="button-addon2" [disabled]="!timeForm.valid">Start</button>
+          <button type="submit" class="btn btn-outline-secondary" id="button-addon2" [disabled]="!timeForm.value.minutes">Start</button>
         </div>
     </div>
 </form>
