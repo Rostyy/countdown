@@ -1,6 +1,8 @@
 <div class="timer-row">
     <countdown [buttonName]="buttonName"></countdown>
-    <button class="btn btn-light" (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)" [disabled]="!buttonName">{{isPause ? BUTTON.PAUSE : BUTTON.CONTINUE}}</button>
+    <button class="btn btn-light" (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)" [disabled]="!buttonName">
+        {{isPause ? BUTTON.PAUSE : BUTTON.CONTINUE}}
+    </button>
 </div>
 <div class="buttons-row">
     <button class="btn btn-primary" (click)="buttonClick(BUTTON.X1)" [disabled]="isDisabled(BUTTON.X1) || !buttonName">{{BUTTON.X1}}</button>

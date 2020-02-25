@@ -21,11 +21,9 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   halfTimeSec: number;
   timerClass: string = '';
   initDuration: Timer = {minutes: 0, seconds: 0};
-  // coefficient: number;
-
-  notification: {message: string, class: string} = {message: '', class: ''};
-  intervalRef: any;
   paused: Timer = {minutes: null, seconds: null};
+  notification: {message: string, class: string} = {message: '', class: ''};
+  intervalRef: number;
 
   ngOnChanges(): void {
     this.controlClick();
@@ -47,7 +45,6 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.halfTimeSec = minutesDuration*60/2;
     this.notification = {message: '', class: ''};;
     this.timerClass = '';
-    // this.coefficient = 1;
   }
 
   controlClick(): void {
@@ -74,19 +71,18 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     return value < 10 ? `0${value}` : value;
   }
 
-  pause() {
+  pause(): void {
     this.paused = Object.assign({}, this.initDuration);
     clearInterval(this.intervalRef);
   }
 
-  applyCoefficient(coefficient: number = 1) {
-    // this.coefficient = coefficient;
+  applyCoefficient(coefficient: number = 1): void {
     this.shareDataService.changeCoefficient(coefficient);
     const {minutes, seconds} = this.initDuration;
     this.activateTimer(minutes, seconds);
   }
 
-  continue() {
+  continue(): void {
     const {minutes, seconds} = this.paused;
     this.activateTimer(minutes, seconds);
   }
@@ -138,7 +134,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.initDuration.minutes = minDuration;
     this.initDuration.seconds = seconds;
     if (this.showTimerIsOver()) return;
-    this.intervalRef = setInterval(this.intervalFn.bind(this), frequency);
+    this.intervalRef = <any>setInterval(this.intervalFn.bind(this), frequency);
   }
 
 }
