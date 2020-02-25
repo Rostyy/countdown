@@ -6,9 +6,18 @@
 
 .timer-row {
     display: flex;
+    justify-content: space-between;
 
     countdown {
         margin-right: 30px;
+        display: flex;
+        flex-direction: column;
+        align-self: flex-end;
+    }
+
+    button {
+        display: flex;
+        align-self: flex-end;
     }
 }
 

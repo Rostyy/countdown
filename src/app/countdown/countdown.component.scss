@@ -1,10 +1,8 @@
-.notification {
-    color: green;
-}
-
 .countdown-timer {
     color: black;
     font-size: 30px;
+    display: flex;
+    align-self: flex-end;
 
     &.red {
         color: red;
