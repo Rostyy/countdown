@@ -1,2 +1,2 @@
-<div class="alert alert-success" role="alert" *ngIf="notification">{{notification}}</div>
+<div class="alert alert-{{notification.class}}" role="alert" *ngIf="notification.message">{{notification.message}}</div>
 <div class="countdown-timer {{timerClass}}">{{displayNumbers(initDuration.minutes)}} : {{displayNumbers(initDuration.seconds)}}</div>

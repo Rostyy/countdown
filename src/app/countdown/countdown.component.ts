@@ -23,7 +23,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   initDuration: Timer = {minutes: 0, seconds: 0};
   coefficient: number;
 
-  notification: string = '';
+  notification: {message: string, class: string} = {message: '', class: ''};
   intervalRef: any;
   paused: Timer = {minutes: null, seconds: null};
 
@@ -35,7 +35,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(minutesDuration => {
         this.halfTimeSec = minutesDuration*60/2;
-        this.notification = '';
+        this.notification = {message: '', class: ''};;
         this.timerClass = '';
         this.coefficient = 1;
         this.activateTimer(minutesDuration, 0);
@@ -112,14 +112,14 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   showHalfTimeNotification(): void {
     const currentSec = this.initDuration.minutes*60 + this.initDuration.seconds;
     if (currentSec <= this.halfTimeSec) {
-      this.notification = 'More than halfway there!';
+      this.notification = {message: 'More than halfway there!', class: 'success'};
     }
   }
 
   showTimerIsOver(): boolean {
     let {minutes, seconds} = this.initDuration;
     if (!seconds && !minutes) {
-      this.notification = 'Time is over';
+      this.notification = {message: 'Time’s up!', class: 'danger'};
       this.timerClass = '';
       clearInterval(this.intervalRef);
       return true;
