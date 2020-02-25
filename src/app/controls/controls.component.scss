@@ -1,0 +1,23 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer-row {
+    display: flex;
+
+    countdown {
+        margin-right: 30px;
+    }
+}
+
+.buttons-row {
+    display: flex;
+    align-content: space-between;
+    margin-top: 10px;
+    
+    button:not(:last-child) {
+        margin-right: 7px;
+    }
+}

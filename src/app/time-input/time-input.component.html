@@ -1,5 +1,11 @@
 <form [formGroup]="timeForm" (ngSubmit)="onSubmit()">
-    <span>Countdown: </span>
-    <input type="number" min=0 placeholder="(Min)" formControlName="minutes">
-    <button type="submit" [disabled]="!timeForm.valid">Start</button>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Countdown:</span>
+        </div>
+        <input type="number" class="form-control" min=0 placeholder="(Min)" aria-label="(Min)" formControlName="minutes" aria-describedby="button-addon2">
+        <div class="input-group-append">
+          <button type="submit" class="btn btn-outline-secondary" id="button-addon2" [disabled]="!timeForm.valid">Start</button>
+        </div>
+    </div>
 </form>
