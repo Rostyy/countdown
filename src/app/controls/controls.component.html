@@ -1,5 +1,5 @@
 <div class="timer-row">
-    <countdown [buttonName]="buttonName"></countdown>
+    <countdown #countdown></countdown>
     <button class="btn btn-light" (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)" [disabled]="!buttonName">
         {{isPause ? BUTTON.PAUSE : BUTTON.CONTINUE}}
     </button>

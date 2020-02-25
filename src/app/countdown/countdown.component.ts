@@ -1,8 +1,9 @@
-import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+
 import { ShareDataService } from '../services/share-data.service';
 import { Timer } from 'src/models/timer.model';
 import { CONSTANT } from '../constants/constants';
-import { Subscription } from 'rxjs';
 import { MessageNotification } from 'src/models/message-notification.model';
 
 @Component({
@@ -10,9 +11,7 @@ import { MessageNotification } from 'src/models/message-notification.model';
   templateUrl: './countdown.component.html',
   styleUrls: ['./countdown.component.scss']
 })
-export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
-
-  @Input() buttonName: string;
+export class CountdownComponent implements OnInit, OnDestroy {
 
   constructor(private shareDataService: ShareDataService) { }
   
@@ -24,10 +23,6 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   timerClass: string = '';
   paused: Timer = {minutes: null, seconds: null};
   intervalRef: number;
-
-  ngOnChanges(): void {
-    this.controlClick();
-  }
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
@@ -41,14 +36,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.changeMinutesSubscription.unsubscribe();
   }
 
-  private initStartClick(minutesDuration: number): void {
-    this.halfTimeSec = minutesDuration*60/2;
-    this.notification = {message: '', messageClass: ''};;
-    this.timerClass = '';
-  }
-
-  private controlClick(): void {
-    switch(this.buttonName) {
+  controlClick(buttonName): void {
+    switch(buttonName) {
       case CONSTANT.BUTTON.PAUSE:
         this.pause();
         break;
@@ -65,6 +54,12 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
         this.applyCoefficient(2);
         break;
     }
+  }
+
+  private initStartClick(minutesDuration: number): void {
+    this.halfTimeSec = minutesDuration*60/2;
+    this.notification = {message: '', messageClass: ''};;
+    this.timerClass = '';
   }
 
   private pause(): void {

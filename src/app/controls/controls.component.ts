@@ -1,7 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ShareDataService } from '../services/share-data.service';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
+
+import { ShareDataService } from '../services/share-data.service';
 import { CONSTANT } from '../constants/constants';
+import { CountdownComponent } from '../countdown/countdown.component';
 
 @Component({
   selector: 'controls',
@@ -18,6 +20,8 @@ export class ControlsComponent implements OnInit, OnDestroy {
   coefficient: number;
 
   constructor(private shareDataService: ShareDataService) { }
+
+  @ViewChild("countdown") countdownReference: CountdownComponent;
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
@@ -38,7 +42,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
   }
 
   buttonClick(buttonName: string): void {
-    this.buttonName = buttonName;
+    this.countdownReference.controlClick(buttonName);
     this.isPause = (buttonName === this.BUTTON.PAUSE) || (buttonName === this.BUTTON.CONTINUE) ? !this.isPause : true;
   }
 
