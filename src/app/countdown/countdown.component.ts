@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { ShareDataService } from '../services/share-data.service';
 import { Subscription } from 'rxjs';
+import { Timer } from 'src/models/timer.model';
 
 @Component({
   selector: 'countdown',
@@ -18,11 +19,11 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   changeMinutesSubscription: Subscription;
   halfTimeSec: number;
   timerClass: string = '';
-  initDuration: {minutes: number, seconds: number} = {minutes: 0, seconds: 0};
+  initDuration: Timer = {minutes: 0, seconds: 0};
 
   notification: string = '';
   intervalRef: any;
-  paused: {minutes: number, seconds: number} = {minutes: null, seconds: null};
+  paused: Timer = {minutes: null, seconds: null};
 
   ngOnChanges(): void {
     this.controlClick();
