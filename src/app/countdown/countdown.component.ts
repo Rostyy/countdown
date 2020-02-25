@@ -3,6 +3,7 @@ import { ShareDataService } from '../services/share-data.service';
 import { Timer } from 'src/models/timer.model';
 import { CONSTANT } from '../constants/constants';
 import { Subscription } from 'rxjs';
+import { MessageNotification } from 'src/models/message-notification.model';
 
 @Component({
   selector: 'countdown',
@@ -16,11 +17,12 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
   constructor(private shareDataService: ShareDataService) { }
   
   changeMinutesSubscription: Subscription;
+  notification: MessageNotification = {message: '', messageClass: ''};
+  initDuration: Timer = {minutes: 0, seconds: 0};
+
   halfTimeSec: number;
   timerClass: string = '';
-  initDuration: Timer = {minutes: 0, seconds: 0};
   paused: Timer = {minutes: null, seconds: null};
-  notification: {message: string, class: string} = {message: '', class: ''};
   intervalRef: number;
 
   ngOnChanges(): void {
@@ -39,13 +41,13 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.changeMinutesSubscription.unsubscribe();
   }
 
-  initStartClick(minutesDuration: number): void {
+  private initStartClick(minutesDuration: number): void {
     this.halfTimeSec = minutesDuration*60/2;
-    this.notification = {message: '', class: ''};;
+    this.notification = {message: '', messageClass: ''};;
     this.timerClass = '';
   }
 
-  controlClick(): void {
+  private controlClick(): void {
     switch(this.buttonName) {
       case CONSTANT.BUTTON.PAUSE:
         this.pause();
@@ -65,23 +67,23 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  pause(): void {
+  private pause(): void {
     this.paused = Object.assign({}, this.initDuration);
     clearInterval(this.intervalRef);
   }
 
-  applyCoefficient(coefficient: number = 1): void {
+  private continue(): void {
+    const {minutes, seconds} = this.paused;
+    this.activateTimer(minutes, seconds);
+  }
+
+  private applyCoefficient(coefficient: number = 1): void {
     this.shareDataService.changeCoefficient(coefficient);
     const {minutes, seconds} = this.initDuration;
     this.activateTimer(minutes, seconds);
   }
 
-  continue(): void {
-    const {minutes, seconds} = this.paused;
-    this.activateTimer(minutes, seconds);
-  }
-
-  intervalFn(): void {
+  private intervalFn(): void {
     if (this.initDuration.seconds === 0) {
       this.initDuration.seconds = 59;
       this.initDuration.minutes--;
@@ -93,7 +95,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     this.showTimerIsOver();
   }
 
-  applyTimerStyles(): void {
+  private applyTimerStyles(): void {
     const {seconds} = this.initDuration;
     if (seconds <= 10) {
       this.timerClass = 'blink';
@@ -104,26 +106,30 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     }
   }
 
-  showHalfTimeNotification(): void {
+  private showHalfTimeNotification(): void {
     const currentSec = this.initDuration.minutes*60 + this.initDuration.seconds;
     if (currentSec <= this.halfTimeSec) {
-      this.notification = {message: 'More than halfway there!', class: 'success'};
+      this.notification = {message: 'More than halfway there!', messageClass: 'success'};
     }
   }
 
-  showTimerIsOver(): boolean {
+  private showTimerIsOver(): boolean {
     let {minutes, seconds} = this.initDuration;
     if (!seconds && !minutes) {
-      this.notification = {message: 'Time’s up!', class: 'danger'};
-      const audio = new Audio('../assets/alarm.mp3');
-      audio.play();
+      this.notification = {message: 'Time’s up!', messageClass: 'danger'};
       this.timerClass = '';
+      this.playAudio();
       clearInterval(this.intervalRef);
       return true;
     }
   }
 
-  activateTimer(minDuration: number, seconds: number): void {
+  private playAudio() {
+    const audio = new Audio('../assets/alarm.mp3');
+    audio.play();
+  }
+
+  private activateTimer(minDuration: number, seconds: number): void {
     if (this.intervalRef) clearInterval(this.intervalRef);
     const coefficient = this.shareDataService.changeCoefficientSubject.getValue();
     const frequency = 1000 / coefficient;
