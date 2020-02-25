@@ -1,8 +1,9 @@
 .countdown-timer {
-    color: black;
-    font-size: 30px;
     display: flex;
     align-self: flex-end;
+
+    color: black;
+    font-size: 30px;
 
     &.red {
         color: red;
