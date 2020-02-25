@@ -119,6 +119,8 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
     let {minutes, seconds} = this.initDuration;
     if (!seconds && !minutes) {
       this.notification = {message: 'Time’s up!', class: 'danger'};
+      const audio = new Audio('../assets/alarm.mp3');
+      audio.play();
       this.timerClass = '';
       clearInterval(this.intervalRef);
       return true;
