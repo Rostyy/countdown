@@ -6,5 +6,6 @@ export const CONSTANT = {
         X1: '1x',
         X1_5: '1.5x',
         X2: '2x'
-    }
+    },
+    INIT_COEFFICIENT: 1
 }

@@ -14,7 +14,6 @@ export class ControlsComponent implements OnInit, OnDestroy {
 
   changeMinutesSubscription: Subscription;
   changeCoefficientSubscription: Subscription;
-  buttonName = '';
   isPause = true;
   BUTTON = CONSTANT.BUTTON;
   coefficient: number;
@@ -27,18 +26,12 @@ export class ControlsComponent implements OnInit, OnDestroy {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe(() => {
         this.isPause = true;
-        this.buttonName = this.BUTTON.X1;
-      })
-
-    this.changeCoefficientSubscription = this.shareDataService.changeCoefficient$
-      .subscribe(coefficient => {
-        this.coefficient = coefficient;
+        this.coefficient = CONSTANT.INIT_COEFFICIENT;
       })
   }
 
   ngOnDestroy(): void {
     this.changeMinutesSubscription.unsubscribe();
-    this.changeCoefficientSubscription.unsubscribe();
   }
 
   buttonClick(buttonName: string): void {
@@ -50,24 +43,33 @@ export class ControlsComponent implements OnInit, OnDestroy {
     return name === `${this.coefficient}x`;
   }
 
-  private controlClick(buttonName): void {
+  private controlClick(buttonName: string): void {
     switch(buttonName) {
       case CONSTANT.BUTTON.PAUSE:
         this.countdownReference.pause();
         break;
       case CONSTANT.BUTTON.CONTINUE:
-        this.countdownReference.continue();
+        this.countdownReference.continue(this.coefficient);
         break;
       case CONSTANT.BUTTON.X1:
-        this.countdownReference.applyCoefficient();
+        this.createApplyCoefficient(CONSTANT.BUTTON.X1);
         break;
       case CONSTANT.BUTTON.X1_5:
-        this.countdownReference.applyCoefficient(1.5);
+        this.createApplyCoefficient(CONSTANT.BUTTON.X1_5);
         break;
       case CONSTANT.BUTTON.X2:
-        this.countdownReference.applyCoefficient(2);
+        this.createApplyCoefficient(CONSTANT.BUTTON.X2);
         break;
     }
+  }
+
+  private createApplyCoefficient(buttonName: string): void {
+    this.coefficient = this.createCoefficient(buttonName);
+    this.countdownReference.applyCoefficient(this.coefficient);
+  }
+
+  private createCoefficient(buttonName: string): number {
+    return +buttonName.substring(0, buttonName.length - 1);
   }
 
 }

@@ -6,9 +6,6 @@ import { Subject, BehaviorSubject } from 'rxjs';
 })
 export class ShareDataService {
 
-  changeCoefficientSubject =  new BehaviorSubject<number>(1);
-  changeCoefficient$ = this.changeCoefficientSubject.asObservable();
-
   private changeMinutesSubject = new Subject<number>();
   changeMinutes$ = this.changeMinutesSubject.asObservable();
 
@@ -16,9 +13,5 @@ export class ShareDataService {
 
   changeMinutes(minutes: number) {
     this.changeMinutesSubject.next(minutes);
-  }
-
-  changeCoefficient(minutes: number) {
-    this.changeCoefficientSubject.next(minutes);
   }
 }

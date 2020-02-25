@@ -23,12 +23,13 @@ export class CountdownComponent implements OnInit, OnDestroy {
   timerClass: string = '';
   paused: Timer = {minutes: null, seconds: null};
   intervalRef: number;
+  coefficient: number;
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
       .subscribe((minutesDuration: number) => {
         this.initStartClick(minutesDuration)
-        this.activateTimer(minutesDuration, 0);
+        this.activateTimer(minutesDuration, 0, CONSTANT.INIT_COEFFICIENT);
       });
   }
 
@@ -41,15 +42,14 @@ export class CountdownComponent implements OnInit, OnDestroy {
     clearInterval(this.intervalRef);
   }
 
-  continue(): void {
+  continue(coefficient: number): void {
     const {minutes, seconds} = this.paused;
-    this.activateTimer(minutes, seconds);
+    this.activateTimer(minutes, seconds, coefficient);
   }
 
-  applyCoefficient(coefficient: number = 1): void {
-    this.shareDataService.changeCoefficient(coefficient);
+  applyCoefficient(coefficient: number): void {
     const {minutes, seconds} = this.initDuration;
-    this.activateTimer(minutes, seconds);
+    this.activateTimer(minutes, seconds, coefficient);
   }
 
   private initStartClick(minutesDuration: number): void {
@@ -104,9 +104,8 @@ export class CountdownComponent implements OnInit, OnDestroy {
     audio.play();
   }
 
-  private activateTimer(minDuration: number, seconds: number): void {
+  private activateTimer(minDuration: number, seconds: number, coefficient = 1): void {
     if (this.intervalRef) clearInterval(this.intervalRef);
-    const coefficient = this.shareDataService.changeCoefficientSubject.getValue();
     const frequency = 1000 / coefficient;
     this.initDuration.minutes = minDuration;
     this.initDuration.seconds = seconds;

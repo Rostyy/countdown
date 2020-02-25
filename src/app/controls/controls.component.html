@@ -1,12 +1,12 @@
 <div class="timer-row">
     <countdown #countdown></countdown>
-    <button class="btn btn-light" (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)" [disabled]="!buttonName">
+    <button class="btn btn-light" (click)="buttonClick(isPause ? BUTTON.PAUSE : BUTTON.CONTINUE)" [disabled]="!coefficient">
         {{isPause ? BUTTON.PAUSE : BUTTON.CONTINUE}}
     </button>
 </div>
 <div class="buttons-row">
-    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X1)" [disabled]="isDisabled(BUTTON.X1) || !buttonName">{{BUTTON.X1}}</button>
-    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X1_5)" [disabled]="isDisabled(BUTTON.X1_5) || !buttonName">{{BUTTON.X1_5}}</button>
-    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X2)" [disabled]="isDisabled(BUTTON.X2) || !buttonName">{{BUTTON.X2}}</button>
+    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X1)" [disabled]="isDisabled(BUTTON.X1) || !coefficient">{{BUTTON.X1}}</button>
+    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X1_5)" [disabled]="isDisabled(BUTTON.X1_5) || !coefficient">{{BUTTON.X1_5}}</button>
+    <button class="btn btn-primary" (click)="buttonClick(BUTTON.X2)" [disabled]="isDisabled(BUTTON.X2) || !coefficient">{{BUTTON.X2}}</button>
 </div>
 
