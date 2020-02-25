@@ -21,8 +21,9 @@ export class ControlsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     CONSTANT
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
-      .subscribe(minutesDuration => {
+      .subscribe(() => {
         this.isPause = true;
+        this.buttonName = '';
       })
   }
 
