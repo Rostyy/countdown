@@ -15,8 +15,7 @@ export class TimeInputComponent implements OnInit {
 
   constructor(private shareDataService: ShareDataService) { }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   onSubmit(): void {
     const {minutes} = this.timeForm.value;

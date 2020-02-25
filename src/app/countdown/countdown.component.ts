@@ -13,9 +13,7 @@ export class CountdownComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() buttonName: string;
 
-  constructor(private shareDataService: ShareDataService) {
-    this.shareDataService = shareDataService;
-  }
+  constructor(private shareDataService: ShareDataService) { }
   
   changeMinutesSubscription: Subscription;
   halfTimeSec: number;

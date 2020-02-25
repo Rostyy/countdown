@@ -17,8 +17,7 @@ export class ControlsComponent implements OnInit, OnDestroy {
   BUTTON = CONSTANT.BUTTON;
   coefficient: number;
 
-  constructor(private shareDataService: ShareDataService) {
-  }
+  constructor(private shareDataService: ShareDataService) { }
 
   ngOnInit(): void {
     this.changeMinutesSubscription = this.shareDataService.changeMinutes$
