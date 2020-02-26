@@ -20,7 +20,7 @@ export class TimeInputComponent implements OnInit {
 
   onSubmit(): void {
     const {minutes} = this.timeForm.value;
-    this.shareDataService.changeMinutes(minutes);
+    this.shareDataService.changeMinutes(Math.round(minutes));
   }
 
 }
