@@ -16,7 +16,8 @@ down the speed at the following rates: -- 1.0X (normal speed, selected by
 default) -- 1.5X -- 2X
 * When half of the selected duration has been passed, display a string of text
 above the countdown timer reading: “More than halfway there!”
-* When the countdown timer reaches 0, this text should change to: “Time’s up!” • When the countdown is within 20 seconds of ending, the countdown timer text
+* When the countdown timer reaches 0, this text should change to: “Time’s up!”
+* When the countdown is within 20 seconds of ending, the countdown timer text
 should turn red.
 * At 10 seconds, the text should start blinking.
 * Include unit testing for applicable functionality.

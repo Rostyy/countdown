@@ -22,4 +22,14 @@ describe('ControlsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should test isPause before init', () => {
+    const isPause = true;
+    expect(component.isPause).toBe(isPause);
+  });
+
+  it('should test coefficient before init', () => {
+    const coefficient = undefined;
+    expect(component.coefficient).toBe(coefficient);
+  });
 });
