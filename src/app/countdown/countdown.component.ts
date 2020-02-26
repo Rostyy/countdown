@@ -71,12 +71,12 @@ export class CountdownComponent implements OnInit, OnDestroy {
   }
 
   private applyTimerStyles(): void {
-    const {seconds} = this.initDuration;
-    if (seconds <= 10) {
+    const {minutes, seconds} = this.initDuration;
+    if (!minutes && seconds <= 10) {
       this.timerClass = 'blink';
       return;
     }
-    if (seconds <= 20) {
+    if (!minutes && seconds <= 20) {
       this.timerClass = 'red';
     }
   }
