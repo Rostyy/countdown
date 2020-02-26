@@ -11,3 +11,14 @@
     border: 1px dotted #7EB3FF;
     margin-top: 15px;
 }
+
+// mobile
+@media (max-width: 1024px) {
+  .wrapper {
+    width: 95%;
+
+    time-input {
+        margin: 0 8px;
+    }
+  }
+}
